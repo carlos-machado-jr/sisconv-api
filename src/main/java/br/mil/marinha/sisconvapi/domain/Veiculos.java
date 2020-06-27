@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Proprietarios implements Serializable{
+public class Veiculos implements Serializable{
 
 	/**
 	 * 
@@ -20,31 +20,27 @@ public class Proprietarios implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String nome;
+	private String modelo;
+	
+	private String ano;
 	
 	@Column(unique = true)
-	private String email;
+	private String placa;
 	
 	@Column(unique = true)
-	private String nip;
+	private String chassi;
 	
-	@Column(unique = true)
-	private String cnh;
-	
-	private boolean ativo;
-	
-	public Proprietarios() {
+	public Veiculos() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Proprietarios(Integer id, String nome, String email, String nip, String cnh, boolean ativo) {
+	public Veiculos(Integer id, String modelo, String ano, String placa, String chassi) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.nip = nip;
-		this.cnh = cnh;
-		this.ativo = ativo;
+		this.modelo = modelo;
+		this.ano = ano;
+		this.placa = placa;
+		this.chassi = chassi;
 	}
 
 	public Integer getId() {
@@ -55,44 +51,36 @@ public class Proprietarios implements Serializable{
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public String getModelo() {
+		return modelo;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
 	}
 
-	public String getEmail() {
-		return email;
+	public String getAno() {
+		return ano;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setAno(String ano) {
+		this.ano = ano;
 	}
 
-	public String getNip() {
-		return nip;
+	public String getPlaca() {
+		return placa;
 	}
 
-	public void setNip(String nip) {
-		this.nip = nip;
+	public void setPlaca(String placa) {
+		this.placa = placa;
 	}
 
-	public String getCnh() {
-		return cnh;
+	public String getChassi() {
+		return chassi;
 	}
 
-	public void setCnh(String cnh) {
-		this.cnh = cnh;
-	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
+	public void setChassi(String chassi) {
+		this.chassi = chassi;
 	}
 
 	@Override
@@ -111,7 +99,7 @@ public class Proprietarios implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Proprietarios other = (Proprietarios) obj;
+		Veiculos other = (Veiculos) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -119,8 +107,6 @@ public class Proprietarios implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 	
 	
 }
