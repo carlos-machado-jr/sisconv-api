@@ -5,17 +5,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.mil.marinha.sisconvapi.domain.Usuarios;
-import br.mil.marinha.sisconvapi.repositories.UsuarioRepository;
+import br.mil.marinha.sisconvapi.domain.Permissoes;
+import br.mil.marinha.sisconvapi.repositories.PermissaoRepository;
 
 @Service
-public class UsuarioService {
-	
+public class PermissaoService {
+
 	@Autowired
-	UsuarioRepository repo;
+	PermissaoRepository repo;
 	
-	public List<Usuarios> findAll(){
+	public List<Permissoes> findAll(){
 		return repo.findAll();
 	}
-
 }
