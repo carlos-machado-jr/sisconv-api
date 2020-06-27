@@ -1,14 +1,34 @@
 package br.mil.marinha.sisconvapi.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
 
 public class ProprietariosDTO {
 
 	private Integer id;
+	
+	@NotEmpty(message = "Preenchimento obrigatorio")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String nome;
+	
+	@NotEmpty(message = "Preenchimento obrigatorio")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Email
 	private String email;
+	
+	@NotEmpty(message = "Preenchimento obrigatorio")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String nip;
-	private String cng;
+	
+	@NotEmpty(message = "Preenchimento obrigatorio")
+	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	private String cnh;
+	
+	private Integer id_setor;
 	
 	public ProprietariosDTO() {
 		// TODO Auto-generated constructor stub
@@ -20,7 +40,7 @@ public class ProprietariosDTO {
 		this.nome = p.getNome();
 		this.email = p.getEmail();
 		this.nip = p.getNip();
-		this.cng = p.getCnh();
+		this.cnh = p.getCnh();
 	}
 
 	public Integer getId() {
@@ -55,12 +75,12 @@ public class ProprietariosDTO {
 		this.nip = nip;
 	}
 
-	public String getCng() {
-		return cng;
+	public String getCnh() {
+		return cnh;
 	}
 
-	public void setCng(String cng) {
-		this.cng = cng;
+	public void setCnh(String cnh) {
+		this.cnh = cnh;
 	}
 	
 	
