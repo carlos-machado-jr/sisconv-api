@@ -29,4 +29,5 @@ public class ProprietarioResource {
 		return ResponseEntity.ok(dtoList);
 	}
 	
+	
 }

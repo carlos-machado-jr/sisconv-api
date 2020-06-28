@@ -18,4 +18,8 @@ public class SetorService {
 	public List<Setor> findAll(){
 		return repo.findAll();
 	}
+	
+	public Setor findByDescricao(String descricao) {
+		return repo.findByDescricao(descricao);
+	}
 }

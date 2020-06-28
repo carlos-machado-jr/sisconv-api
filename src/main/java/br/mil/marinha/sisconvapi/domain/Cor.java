@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Cor implements Serializable{
 
@@ -25,6 +27,7 @@ public class Cor implements Serializable{
 	@Column(unique = true)
 	private String desc_cor;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy = "cor")
 	private List<Veiculos> veiculos;
 	

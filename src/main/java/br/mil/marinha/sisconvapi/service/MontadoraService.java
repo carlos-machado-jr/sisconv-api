@@ -17,4 +17,8 @@ public class MontadoraService {
 	public List<Montadora> findAll(){
 		return repo.findAll();
 	}
+	
+	public Montadora findByDescricao(String descricao) {
+		return repo.findByDescricao(descricao);
+	}
 }

@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Veiculos implements Serializable{
 
@@ -32,14 +34,17 @@ public class Veiculos implements Serializable{
 	@Column(unique = true)
 	private String chassi;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_proprietario")
 	private Proprietarios proprietario;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_montadora")
 	private Montadora montadora;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_cor")
 	private Cor cor;

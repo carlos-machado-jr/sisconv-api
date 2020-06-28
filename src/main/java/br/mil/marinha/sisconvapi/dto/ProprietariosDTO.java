@@ -1,11 +1,14 @@
 package br.mil.marinha.sisconvapi.dto;
 
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
+import br.mil.marinha.sisconvapi.domain.Veiculos;
 
 public class ProprietariosDTO {
 
@@ -33,6 +36,9 @@ public class ProprietariosDTO {
 	private String posto;
 	
 	
+	private Set<Veiculos> veiculos;
+	
+	
 	
 	public ProprietariosDTO() {
 		// TODO Auto-generated constructor stub
@@ -47,7 +53,7 @@ public class ProprietariosDTO {
 		this.cnh = p.getCnh();
 		this.setor = p.getSetor().getDesc_setor();
 		this.posto = p.getPosto().getDesc_posto();
-		
+		this.veiculos = p.getVeiculos();
 	}
 
 	public Integer getId() {
@@ -104,6 +110,14 @@ public class ProprietariosDTO {
 
 	public void setPosto(String posto) {
 		this.posto = posto;
+	}
+
+	public Set<Veiculos> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(Set<Veiculos> veiculos) {
+		this.veiculos = veiculos;
 	}
 	
 	

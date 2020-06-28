@@ -17,4 +17,8 @@ public class PostoService {
 	public List<Posto> findAll(){
 		return repo.findAll();
 	}
+	
+	public Posto findByDescricao(String descricao) {
+		return repo.findByDescricao(descricao);
+	}
 }

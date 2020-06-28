@@ -17,4 +17,8 @@ public class CorService {
 	public List<Cor> findAll(){
 		return repo.findAll();
 	}
+	
+	public Cor findByDescricao(String descricao) {
+		return repo.findByDescricao(descricao);
+	}
 }
