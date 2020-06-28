@@ -1,12 +1,18 @@
 package br.mil.marinha.sisconvapi.domain;
 
 import java.io.Serializable;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Proprietarios implements Serializable{
@@ -32,6 +38,22 @@ public class Proprietarios implements Serializable{
 	private String cnh;
 	
 	private boolean ativo;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_posto")
+	private Posto posto;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_setor")
+	private Setor setor;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cartao")
+	private Cartao cartao;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "proprietario")
+	private Set<Veiculos> veiculos;
 	
 	public Proprietarios() {
 		// TODO Auto-generated constructor stub
@@ -93,6 +115,39 @@ public class Proprietarios implements Serializable{
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	
+	public Posto getPosto() {
+		return posto;
+	}
+
+	public void setPosto(Posto posto) {
+		this.posto = posto;
+	}
+
+	public Setor getSetor() {
+		return setor;
+	}
+
+	public void setSetor(Setor setor) {
+		this.setor = setor;
+	}
+
+	public Cartao getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(Cartao cartao) {
+		this.cartao = cartao;
+	}
+
+	public Set<Veiculos> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(Set<Veiculos> veiculos) {
+		this.veiculos = veiculos;
 	}
 
 	@Override

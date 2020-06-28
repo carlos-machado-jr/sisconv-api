@@ -28,7 +28,11 @@ public class ProprietariosDTO {
 	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String cnh;
 	
-	private Integer id_setor;
+	private String setor;
+	
+	private String posto;
+	
+	
 	
 	public ProprietariosDTO() {
 		// TODO Auto-generated constructor stub
@@ -41,6 +45,9 @@ public class ProprietariosDTO {
 		this.email = p.getEmail();
 		this.nip = p.getNip();
 		this.cnh = p.getCnh();
+		this.setor = p.getSetor().getDesc_setor();
+		this.posto = p.getPosto().getDesc_posto();
+		
 	}
 
 	public Integer getId() {
@@ -81,6 +88,22 @@ public class ProprietariosDTO {
 
 	public void setCnh(String cnh) {
 		this.cnh = cnh;
+	}
+
+	public String getSetor() {
+		return setor;
+	}
+
+	public void setSetor(String setor) {
+		this.setor = setor;
+	}
+
+	public String getPosto() {
+		return posto;
+	}
+
+	public void setPosto(String posto) {
+		this.posto = posto;
 	}
 	
 	

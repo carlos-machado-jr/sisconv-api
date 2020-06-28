@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Veiculos implements Serializable{
@@ -29,6 +31,18 @@ public class Veiculos implements Serializable{
 	
 	@Column(unique = true)
 	private String chassi;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_proprietario")
+	private Proprietarios proprietario;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_montadora")
+	private Montadora montadora;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_cor")
+	private Cor cor;
 	
 	public Veiculos() {
 		// TODO Auto-generated constructor stub
@@ -81,6 +95,31 @@ public class Veiculos implements Serializable{
 
 	public void setChassi(String chassi) {
 		this.chassi = chassi;
+	}
+	
+	
+	public Proprietarios getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietarios proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public Montadora getMontadora() {
+		return montadora;
+	}
+
+	public void setMontadora(Montadora montadora) {
+		this.montadora = montadora;
+	}
+
+	public Cor getCor() {
+		return cor;
+	}
+
+	public void setCor(Cor cor) {
+		this.cor = cor;
 	}
 
 	@Override

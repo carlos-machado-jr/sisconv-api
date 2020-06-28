@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -29,6 +31,9 @@ public class Cartao implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date validade;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_status_cartao")
+	private StatusCartao statusCartao;
 	
 	public Cartao() {
 		// TODO Auto-generated constructor stub
@@ -40,6 +45,20 @@ public class Cartao implements Serializable{
 		this.id = id;
 		this.numero = numero;
 		this.validade = validade;
+		
+	}
+
+	
+	
+
+
+	public StatusCartao getStatusCartao() {
+		return statusCartao;
+	}
+
+
+	public void setStatusCartao(StatusCartao statusCartao) {
+		this.statusCartao = statusCartao;
 	}
 
 

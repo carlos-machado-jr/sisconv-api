@@ -1,12 +1,14 @@
 package br.mil.marinha.sisconvapi.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Setor implements Serializable{
@@ -22,6 +24,9 @@ public class Setor implements Serializable{
 	
 	@Column(unique = true)
 	private String desc_setor;
+	
+	@OneToMany(mappedBy = "setor")
+	private List<Proprietarios> proprietarios;
 	
 	public Setor() {
 		// TODO Auto-generated constructor stub
@@ -47,6 +52,16 @@ public class Setor implements Serializable{
 
 	public void setDesc_setor(String desc_setor) {
 		this.desc_setor = desc_setor;
+	}
+	
+	
+
+	public List<Proprietarios> getProprietarios() {
+		return proprietarios;
+	}
+
+	public void setProprietarios(List<Proprietarios> proprietarios) {
+		this.proprietarios = proprietarios;
 	}
 
 	@Override

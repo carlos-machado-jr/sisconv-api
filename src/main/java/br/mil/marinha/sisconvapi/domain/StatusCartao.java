@@ -3,15 +3,16 @@ package br.mil.marinha.sisconvapi.domain;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
-public class Cor implements Serializable{
+@Table(name = "status_cartao")
+public class StatusCartao implements Serializable{
 
 	/**
 	 * 
@@ -22,20 +23,19 @@ public class Cor implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(unique = true)
-	private String desc_cor;
+	private String desc_status_cartao;
 	
-	@OneToMany(mappedBy = "cor")
-	private List<Veiculos> veiculos;
+	@OneToMany(mappedBy = "statusCartao")
+	private List<Cartao> cartao;
 	
-	public Cor() {
+	public StatusCartao() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Cor(Integer id, String desc_cor) {
+	public StatusCartao(Integer id, String desc_status_cartao) {
 		super();
 		this.id = id;
-		this.desc_cor = desc_cor;
+		this.desc_status_cartao = desc_status_cartao;
 	}
 
 	public Integer getId() {
@@ -46,21 +46,22 @@ public class Cor implements Serializable{
 		this.id = id;
 	}
 
-	public String getDesc_cor() {
-		return desc_cor;
+	public String getDesc_status_cartao() {
+		return desc_status_cartao;
 	}
 
-	public void setDesc_cor(String desc_cor) {
-		this.desc_cor = desc_cor;
+	public void setDesc_status_cartao(String desc_status_cartao) {
+		this.desc_status_cartao = desc_status_cartao;
 	}
 	
+	
 
-	public List<Veiculos> getVeiculos() {
-		return veiculos;
+	public List<Cartao> getCartao() {
+		return cartao;
 	}
 
-	public void setVeiculos(List<Veiculos> veiculos) {
-		this.veiculos = veiculos;
+	public void setCartao(List<Cartao> cartao) {
+		this.cartao = cartao;
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class Cor implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cor other = (Cor) obj;
+		StatusCartao other = (StatusCartao) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

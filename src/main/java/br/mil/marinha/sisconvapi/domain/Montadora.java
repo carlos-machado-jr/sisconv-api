@@ -1,12 +1,14 @@
 package br.mil.marinha.sisconvapi.domain;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Montadora implements Serializable{
@@ -22,6 +24,9 @@ public class Montadora implements Serializable{
 	
 	@Column(unique = true)
 	private String desc_montadora;
+	
+	@OneToMany(mappedBy = "montadora")
+	private List<Veiculos> veiculos;
 	
 	public Montadora() {
 		// TODO Auto-generated constructor stub
@@ -47,6 +52,15 @@ public class Montadora implements Serializable{
 
 	public void setDesc_montadora(String desc_montadora) {
 		this.desc_montadora = desc_montadora;
+	}
+	
+	
+	public List<Veiculos> getVeiculos() {
+		return veiculos;
+	}
+
+	public void setVeiculos(List<Veiculos> veiculos) {
+		this.veiculos = veiculos;
 	}
 
 	@Override
