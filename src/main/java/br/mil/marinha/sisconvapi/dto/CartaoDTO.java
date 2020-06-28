@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import br.mil.marinha.sisconvapi.domain.Cartao;
+import br.mil.marinha.sisconvapi.domain.Proprietarios;
 
 public class CartaoDTO {
 
@@ -20,6 +21,10 @@ public class CartaoDTO {
 	private Date validade;
 
 	private String status_cartao;
+	
+	private String nome_proprietario;
+	
+	private String nip_proprietario;
 
 	public CartaoDTO() {
 		// TODO Auto-generated constructor stub
@@ -31,8 +36,18 @@ public class CartaoDTO {
 		this.numero = c.getNumero();
 		this.validade = c.getValidade();
 		this.status_cartao = c.getStatusCartao().getDesc_status_cartao();
+		
 	}
-
+	
+	public CartaoDTO(Cartao c, Proprietarios p) {
+		super();
+		this.id = c.getId();
+		this.numero = c.getNumero();
+		this.validade = c.getValidade();
+		this.status_cartao = c.getStatusCartao().getDesc_status_cartao();
+		this.nip_proprietario = p.getNip();
+		this.nome_proprietario = p.getNome();
+	}
 	
 
 	public Integer getId() {
@@ -67,4 +82,21 @@ public class CartaoDTO {
 		this.status_cartao = status_cartao;
 	}
 
+	public String getNome_proprietario() {
+		return nome_proprietario;
+	}
+
+	public void setNome_proprietario(String nome_proprietario) {
+		this.nome_proprietario = nome_proprietario;
+	}
+
+	public String getNip_proprietario() {
+		return nip_proprietario;
+	}
+
+	public void setNip_proprietario(String nip_proprietario) {
+		this.nip_proprietario = nip_proprietario;
+	}
+	
+	
 }

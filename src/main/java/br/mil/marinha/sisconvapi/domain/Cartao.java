@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -34,6 +35,9 @@ public class Cartao implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "id_status_cartao")
 	private StatusCartao statusCartao;
+	
+	@OneToOne( mappedBy = "cartao")
+	private Proprietarios proprietario;
 	
 	public Cartao() {
 		// TODO Auto-generated constructor stub
@@ -89,6 +93,17 @@ public class Cartao implements Serializable{
 
 	public void setValidade(Date validade) {
 		this.validade = validade;
+	}
+	
+	
+
+	public Proprietarios getProprietario() {
+		return proprietario;
+	}
+
+
+	public void setProprietario(Proprietarios proprietario) {
+		this.proprietario = proprietario;
 	}
 
 

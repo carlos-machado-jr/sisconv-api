@@ -18,14 +18,17 @@ import br.mil.marinha.sisconvapi.service.CartaoService;
 @RestController
 @RequestMapping("/cartoes")
 public class CartaoResource {
-	
+
 	@Autowired
 	CartaoService service;
-	
+
 	@GetMapping
-	public @Valid ResponseEntity<List<CartaoDTO>> findAll(){
+	public @Valid ResponseEntity<List<CartaoDTO>> findAll() {
 		List<Cartao> cartaoList = service.findAll();
-		List<CartaoDTO> dtoList = cartaoList.stream().map(c -> new CartaoDTO(c)).collect(Collectors.toList());
+		List<CartaoDTO> dtoList = cartaoList.stream()
+				.map(c -> c.getProprietario() == null ? new CartaoDTO(c) : new CartaoDTO(c, c.getProprietario()))
+				.collect(Collectors.toList());
+
 		return ResponseEntity.ok(dtoList);
 	}
 }

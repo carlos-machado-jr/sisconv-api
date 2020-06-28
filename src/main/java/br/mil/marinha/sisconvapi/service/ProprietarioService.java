@@ -1,16 +1,13 @@
 package br.mil.marinha.sisconvapi.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.mil.marinha.sisconvapi.domain.Cartao;
 import br.mil.marinha.sisconvapi.domain.Posto;
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
 import br.mil.marinha.sisconvapi.domain.Setor;
-import br.mil.marinha.sisconvapi.domain.StatusCartao;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.repositories.ProprietarioRepository;
 
@@ -48,11 +45,7 @@ public class ProprietarioService {
 			
 			Posto posto = postoService.findByDescricao(dto.getPosto_proprietario());
 			Setor setor = setorService.findByDescricao(dto.getSetor_proprietario());
-			Cartao cartao = new Cartao(null, dto.getCartao_proprietario(), new Date());
-			StatusCartao status = new StatusCartao();
-			status.setId(1);
-			cartao.setStatusCartao(status);
-			p.setCartao(cartaoService.save(cartao));
+			p.setCartao(cartaoService.ifExist(dto));
 			p.setSetor(setor);
 			p.setPosto(posto);
 			return p;

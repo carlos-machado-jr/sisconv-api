@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -47,8 +48,9 @@ public class Proprietarios implements Serializable{
 	@JoinColumn(name = "id_setor")
 	private Setor setor;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_cartao")
+	@JsonIgnore
+	@OneToOne
+	@JoinColumn(name = "id_cartao", referencedColumnName = "id")
 	private Cartao cartao;
 	
 	@JsonIgnore
