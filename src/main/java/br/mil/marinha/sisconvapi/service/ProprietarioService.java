@@ -17,4 +17,8 @@ public class ProprietarioService {
 	public List<Proprietarios> findAll(){
 		return repo.findAll();
 	}
+	
+	public Proprietarios save(Proprietarios p) {
+		return repo.save(p);
+	}
 }

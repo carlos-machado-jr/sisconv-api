@@ -17,4 +17,8 @@ public class CartaoService {
 	public List<Cartao> findAll(){
 		return repo.findAll();
 	}
+	
+	public Cartao save(Cartao c) {
+		return repo.save(c);
+	}
 }
