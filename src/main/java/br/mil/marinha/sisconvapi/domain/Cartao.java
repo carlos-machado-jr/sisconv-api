@@ -52,7 +52,12 @@ public class Cartao implements Serializable{
 		
 	}
 
-	
+	public Cartao(Integer id,  Date validade) {
+		super();
+		this.id = id;
+		this.validade = validade;
+		
+	}
 	
 
 
