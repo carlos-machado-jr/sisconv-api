@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,7 +55,7 @@ public class ProprietarioResource {
 		ProprietariosDTO dto = new ProprietariosDTO(p);
 		return ResponseEntity.ok(dto);
 	}
-
+	@Transactional
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody ProprietariosDTO dto) {
 
@@ -66,7 +67,8 @@ public class ProprietarioResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proprietario.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
+	@Transactional
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ProprietariosDTO dto) {
 		dto.setId(id);
@@ -77,5 +79,7 @@ public class ProprietarioResource {
 
 		return ResponseEntity.noContent().build();
 	}
+	
+	
 
 }

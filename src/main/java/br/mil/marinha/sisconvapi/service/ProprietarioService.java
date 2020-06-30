@@ -53,6 +53,11 @@ public class ProprietarioService {
 	}
 
 	private Proprietarios transformDTO(ProprietariosDTO dto) {
+				
+		
 		return new Proprietarios(dto.getId(), dto.getNome(), dto.getEmail(), dto.getNip(), dto.getCnh(), true);
 	}
+	
+	
+	
 }

@@ -11,4 +11,6 @@ import br.mil.marinha.sisconvapi.domain.Proprietarios;
 public interface ProprietarioRepository extends JpaRepository<Proprietarios, Integer> {
 	@Query("SELECT obj FROM Proprietarios obj WHERE obj.nip = :nip")
 	Proprietarios findByNip(@Param("nip") String nip);
+	
+	
 }
