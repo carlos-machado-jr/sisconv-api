@@ -4,8 +4,6 @@ import java.util.Date;
 
 import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Length;
-
 import br.mil.marinha.sisconvapi.domain.Cartao;
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
 
@@ -14,10 +12,9 @@ public class CartaoDTO {
 	private Integer id;
 
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String numero;
 
-	@NotEmpty(message = "Preenchimento obrigatorio")
+
 	private Date validade;
 
 	private String status_cartao;
