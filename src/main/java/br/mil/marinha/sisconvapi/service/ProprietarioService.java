@@ -38,9 +38,7 @@ public class ProprietarioService {
 
 	public Proprietarios create(ProprietariosDTO dto) {
 
-		if (findById(dto.getId()) == null && dto.getId() != null) {
-			throw new NullPointerException("Esse id não existe");
-		}
+		
 		Proprietarios p = transformDTO(dto);
 
 		Posto posto = postoService.findByDescricao(dto.getPosto());

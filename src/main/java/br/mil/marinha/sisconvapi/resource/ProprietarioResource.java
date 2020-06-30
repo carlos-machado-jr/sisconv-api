@@ -23,6 +23,7 @@ import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.service.ProprietarioService;
 import br.mil.marinha.sisconvapi.service.VeiculoService;
+import br.mil.marinha.sisconvapi.service.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("/proprietarios")
@@ -44,8 +45,12 @@ public class ProprietarioResource {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProprietariosDTO> findById(@PathVariable Integer id) {
-
+		
+		if(proprietariosService.findById(id) == null) {
+			throw new ObjectNotFoundException("id nao existe");
+		}
 		Proprietarios p = proprietariosService.findById(id);
+		
 		ProprietariosDTO dto = new ProprietariosDTO(p);
 		return ResponseEntity.ok(dto);
 	}
