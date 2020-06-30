@@ -1,6 +1,8 @@
 package br.mil.marinha.sisconvapi.service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +13,7 @@ import br.mil.marinha.sisconvapi.domain.Cor;
 import br.mil.marinha.sisconvapi.domain.Montadora;
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
 import br.mil.marinha.sisconvapi.domain.Veiculos;
+import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.repositories.VeiculoRepository;
 
@@ -38,29 +41,23 @@ public class VeiculoService {
 		return repo.save(v);
 	}
 
-	public Veiculos fromDTO(VeiculosDTO dto) {
+	public Set<Veiculos> fromDTO(ProprietariosDTO dto, Proprietarios p) {
 		
-		Veiculos v = transformDTO(dto);
-		Proprietarios p = proprietarioService.fromDTO(dto);
-		
-		if (p.getId() == null) {
-			p = proprietarioService.save(p);
+		return dto.getVeiculos().stream().map(v -> transformDTO(v, p)).collect(Collectors.toSet());
 
-		}
-		
-		Montadora montadora = montadoraService.findByDescricao(dto.getMontadora());
-		Cor cor = corService.findByDescricao(dto.getCor());
-		
-		v.setProprietario(p);
-		v.setCor(cor);
-		v.setMontadora(montadora);
-		return v;
 	}
 	
 	
 	
-	private Veiculos transformDTO(VeiculosDTO dto) {
-		return new Veiculos(dto.getId(), dto.getModelo(), dto.getAno(), dto.getPlaca(), dto.getChassi());
+	private Veiculos transformDTO(VeiculosDTO dto, Proprietarios p) {
+		Veiculos v = new Veiculos(dto.getId(), dto.getModelo(), dto.getAno(), dto.getPlaca(), dto.getChassi());
+		Montadora montadora = montadoraService.findByDescricao(dto.getMontadora());
+		Cor cor = corService.findByDescricao(dto.getCor());
+		
+		v.setCor(cor);
+		v.setMontadora(montadora);
+		v.setProprietario(p);
+		return repo.save(v);
 	}
 
 }

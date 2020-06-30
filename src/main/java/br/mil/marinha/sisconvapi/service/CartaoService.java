@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import br.mil.marinha.sisconvapi.domain.Cartao;
 import br.mil.marinha.sisconvapi.domain.StatusCartao;
 import br.mil.marinha.sisconvapi.dto.CartaoDTO;
-import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
+import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.repositories.CartaoRepository;
 
 @Service
@@ -33,8 +33,8 @@ public class CartaoService {
 		return c;
 	}
 	
-	public Cartao ifExist(VeiculosDTO dto) {
-		Cartao c = repo.findByNumeroCartao(dto.getCartao_proprietario());
+	public Cartao ifExist(ProprietariosDTO dto) {
+		Cartao c = repo.findByNumeroCartao(dto.getCartao());
 
 		if (c == null) {
 			
@@ -58,9 +58,9 @@ public class CartaoService {
 		return repo.save(cartao);
 	}
 	
-	private Cartao setCartao(VeiculosDTO dto) {
+	private Cartao setCartao(ProprietariosDTO dto) {
 
-		Cartao cartao = new Cartao(null, dto.getCartao_proprietario(), new Date());
+		Cartao cartao = new Cartao(null, dto.getCartao(), new Date());
 
 		StatusCartao statusCartao = new StatusCartao(2, "Indisponivel");
 		cartao.setStatusCartao(statusCartao);

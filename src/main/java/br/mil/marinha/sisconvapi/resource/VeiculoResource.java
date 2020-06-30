@@ -37,13 +37,13 @@ public class VeiculoResource {
 		return ResponseEntity.ok(dtoList);
 	}
 	
-	@PostMapping
-	public ResponseEntity<Void> save(@Valid @RequestBody VeiculosDTO dto){
-		
-		Veiculos v = service.fromDTO(dto);
-		
-		service.save(v);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(v.getId()).toUri();
-		return ResponseEntity.created(uri).build();
-	}
+//	@PostMapping
+//	public ResponseEntity<Void> save(@Valid @RequestBody VeiculosDTO dto){
+//		
+//		Veiculos v = service.fromDTO(dto);
+//		
+//		service.save(v);
+//		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(v.getId()).toUri();
+//		return ResponseEntity.created(uri).build();
+//	}
 }

@@ -1,6 +1,7 @@
 package br.mil.marinha.sisconvapi.dto;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -8,7 +9,6 @@ import javax.validation.constraints.NotEmpty;
 import org.hibernate.validator.constraints.Length;
 
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
-import br.mil.marinha.sisconvapi.domain.Veiculos;
 
 public class ProprietariosDTO {
 
@@ -35,8 +35,9 @@ public class ProprietariosDTO {
 	
 	private String posto;
 	
+	private String cartao;
 	
-	private Set<Veiculos> veiculos;
+	private Set<VeiculosDTO> veiculos;
 	
 	
 	
@@ -53,7 +54,9 @@ public class ProprietariosDTO {
 		this.cnh = p.getCnh();
 		this.setor = p.getSetor().getDesc_setor();
 		this.posto = p.getPosto().getDesc_posto();
-		this.veiculos = p.getVeiculos();
+		this.cartao = p.getCartao().getNumero();
+		this.veiculos = p.getVeiculos().stream().map(v -> new VeiculosDTO(v)).collect(Collectors.toSet());
+		
 	}
 
 	public Integer getId() {
@@ -111,14 +114,25 @@ public class ProprietariosDTO {
 	public void setPosto(String posto) {
 		this.posto = posto;
 	}
+	
 
-	public Set<Veiculos> getVeiculos() {
+	public String getCartao() {
+		return cartao;
+	}
+
+	public void setCartao(String cartao) {
+		this.cartao = cartao;
+	}
+
+	public Set<VeiculosDTO> getVeiculos() {
 		return veiculos;
 	}
 
-	public void setVeiculos(Set<Veiculos> veiculos) {
+	public void setVeiculos(Set<VeiculosDTO> veiculos) {
 		this.veiculos = veiculos;
 	}
+
+	
 	
 	
 	
