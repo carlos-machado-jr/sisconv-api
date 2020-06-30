@@ -13,7 +13,6 @@ import br.mil.marinha.sisconvapi.domain.Cor;
 import br.mil.marinha.sisconvapi.domain.Montadora;
 import br.mil.marinha.sisconvapi.domain.Proprietarios;
 import br.mil.marinha.sisconvapi.domain.Veiculos;
-import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.repositories.VeiculoRepository;
 
@@ -41,9 +40,9 @@ public class VeiculoService {
 		return repo.save(v);
 	}
 
-	public Set<Veiculos> fromDTO(ProprietariosDTO dto, Proprietarios p) {
+	public Set<Veiculos> create(Set<VeiculosDTO> veiculosLista, Proprietarios p) {
 		
-		return dto.getVeiculos().stream().map(v -> transformDTO(v, p)).collect(Collectors.toSet());
+		return veiculosLista.stream().map(v -> transformDTO(v, p)).collect(Collectors.toSet());
 
 	}
 	

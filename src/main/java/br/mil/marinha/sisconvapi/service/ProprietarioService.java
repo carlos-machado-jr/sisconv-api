@@ -30,23 +30,26 @@ public class ProprietarioService {
 		return repo.findAll();
 	}
 
-	public Proprietarios find(Integer id) {
+	public Proprietarios findById(Integer id) {
 		return repo.findById(id).orElse(null);
 	}
 
-	public Proprietarios save(Proprietarios p) {
-		return repo.save(p);
-	}
+	
 
-	public Proprietarios fromDTO(ProprietariosDTO dto) {
-		Proprietarios p = repo.findByNip(dto.getNip());
+	public Proprietarios create(ProprietariosDTO dto) {
 
-		p = transformDTO(dto);
+		if (findById(dto.getId()) == null && dto.getId() != null) {
+			throw new NullPointerException("Esse id não existe");
+		}
+		Proprietarios p = transformDTO(dto);
+
 		Posto posto = postoService.findByDescricao(dto.getPosto());
 		Setor setor = setorService.findByDescricao(dto.getSetor());
-		p.setCartao(cartaoService.ifExist(dto));
 		p.setSetor(setor);
 		p.setPosto(posto);
+
+		p.setCartao(cartaoService.ifExist(dto));
+
 		return repo.save(p);
 
 	}

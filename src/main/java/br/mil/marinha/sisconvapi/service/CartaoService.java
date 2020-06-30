@@ -40,7 +40,7 @@ public class CartaoService {
 			
 			return setCartao(dto);
 			
-		} else if (c.getStatusCartao().getDesc_status_cartao().equals("Indisponivel")) {
+		} else if (c.getStatusCartao().getDesc_status_cartao().equals("Indisponivel") && dto.getId() == null) {
 			
 			throw new NullPointerException("Esse cartao ja está em uso");
 		}
