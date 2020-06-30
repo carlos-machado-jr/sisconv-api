@@ -12,17 +12,17 @@ public class UsuariosDTO {
 	private Integer id;
 
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 5,  message = "Insira um nome completo!")
 	private String nome;
-
+	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	@Email
 	private String email;
-
+	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 8, max = 8, message = "Insira um NIP valido!")
 	private String nip;
+	
 	
 	public UsuariosDTO() {
 		// TODO Auto-generated constructor stub

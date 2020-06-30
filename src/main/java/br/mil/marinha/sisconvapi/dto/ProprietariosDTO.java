@@ -15,28 +15,31 @@ public class ProprietariosDTO {
 	private Integer id;
 	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 5,  message = "Insira um nome completo!")
 	private String nome;
 	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	@Email
 	private String email;
 	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 8, max = 8, message = "Insira um NIP valido!")
 	private String nip;
 	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 11, max = 11, message = "Insira uma CNH valida!")
 	private String cnh;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String setor;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String posto;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String cartao;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private Set<VeiculosDTO> veiculos;
 	
 	

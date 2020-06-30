@@ -12,7 +12,6 @@ public class VeiculosDTO {
 	private Integer id;
 	
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
 	private String modelo;
 	
 	
@@ -20,17 +19,19 @@ public class VeiculosDTO {
 	private String ano;
 	
 	
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 8, max = 8, message = "Insira uma placa valida!")
 	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String placa;
 	
 	
-	@Length(min = 5, max = 120, message = "O tamanho deve ser entre 5 e 120 caracteres")
+	@Length(min = 17, max = 17, message = "Insira uma chassi valido!")
 	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String chassi;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String montadora;
 	
+	@NotEmpty(message = "Preenchimento obrigatorio")
 	private String cor;
 	
 	
