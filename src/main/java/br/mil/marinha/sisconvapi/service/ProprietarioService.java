@@ -1,6 +1,7 @@
 package br.mil.marinha.sisconvapi.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import br.mil.marinha.sisconvapi.domain.Proprietarios;
 import br.mil.marinha.sisconvapi.domain.Setor;
 import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.repositories.ProprietarioRepository;
+import br.mil.marinha.sisconvapi.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class ProprietarioService {
@@ -26,21 +28,67 @@ public class ProprietarioService {
 	@Autowired
 	CartaoService cartaoService;
 
-	public List<Proprietarios> findAll() {
-		return repo.findAll();
+	public List<Proprietarios> findByAllActivated() {
+		return repo.findByAllActivated();
+	}
+
+	public List<Proprietarios> findByAllDisabled() {
+		return repo.findByAllDisabled();
+
+	}
+
+	public Proprietarios findByIdAndAtivo(Integer id) {
+		Optional<Proprietarios> c = repo.findByIdAndAtivo(id);
+		return c.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Proprietarios.class.getName()));
+
 	}
 
 	public Proprietarios findById(Integer id) {
-		return repo.findById(id).orElse(null);
-	}
+		Optional<Proprietarios> c = repo.findById(id);
+		return c.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Proprietarios.class.getName()));
 
-	
+	}
 
 	public Proprietarios create(ProprietariosDTO dto) {
 
-		
+		Proprietarios p = transformDTO(dto);
+		p.setId(null);
+		return repo.save(p);
+
+	}
+
+	public Proprietarios update(ProprietariosDTO dto) {
 		Proprietarios p = transformDTO(dto);
 
+		return repo.save(p);
+	}
+
+	public void deactivate(Integer id) {
+		Proprietarios p = findByIdAndAtivo(id);
+		p.setAtivo(false);
+		cartaoService.deactivate(p.getCartao());
+		p.setCartao(null);
+
+		repo.save(p);
+
+	}
+
+	public void active(Integer id) {
+		Proprietarios p = findById(id);
+		p.setAtivo(true);
+
+		cartaoService.active(p.getCartao());
+
+		repo.save(p);
+
+	}
+
+	private Proprietarios transformDTO(ProprietariosDTO dto) {
+
+		Proprietarios p = new Proprietarios(dto.getId(), dto.getNome(), dto.getEmail(), dto.getNip(), dto.getCnh(),
+				true);
 		Posto posto = postoService.findByDescricao(dto.getPosto());
 		Setor setor = setorService.findByDescricao(dto.getSetor());
 		p.setSetor(setor);
@@ -48,16 +96,7 @@ public class ProprietarioService {
 
 		p.setCartao(cartaoService.ifExist(dto));
 
-		return repo.save(p);
-
+		return p;
 	}
 
-	private Proprietarios transformDTO(ProprietariosDTO dto) {
-				
-		
-		return new Proprietarios(dto.getId(), dto.getNome(), dto.getEmail(), dto.getNip(), dto.getCnh(), true);
-	}
-	
-	
-	
 }

@@ -1,6 +1,7 @@
 package br.mil.marinha.sisconvapi.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -15,6 +16,7 @@ import br.mil.marinha.sisconvapi.domain.Proprietarios;
 import br.mil.marinha.sisconvapi.domain.Veiculos;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.repositories.VeiculoRepository;
+import br.mil.marinha.sisconvapi.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class VeiculoService {
@@ -32,9 +34,15 @@ public class VeiculoService {
 	ProprietarioService proprietarioService;
 
 	public List<Veiculos> findAll() {
-		return repo.findAll();
+		return repo.findByAllAtivos();
 	}
-
+	
+	public Veiculos findById(Integer id) {
+		Optional<Veiculos> v = repo.findByIdAndAtivo(id);
+		return v.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Veiculos.class.getName()));
+		
+	}
 	@Transactional
 	public Veiculos save(Veiculos v) {
 		return repo.save(v);
@@ -46,10 +54,27 @@ public class VeiculoService {
 
 	}
 	
+	public void deactivate(Integer idProprietario) {
+		Set<Veiculos> veiculos = repo.findByIdProprietario(idProprietario);
+		veiculos.forEach(v -> {
+			v.setAtivo(false);
+			save(v);
+		});
+		
+
+	}
 	
-	
+	public void active(Integer idProprietario) {
+		Set<Veiculos> veiculos = repo.findByIdProprietario(idProprietario);
+		veiculos.forEach(v -> {
+			v.setAtivo(true);
+			save(v);
+		});
+		
+
+	}
 	private Veiculos transformDTO(VeiculosDTO dto, Proprietarios p) {
-		Veiculos v = new Veiculos(dto.getId(), dto.getModelo(), dto.getAno(), dto.getPlaca(), dto.getChassi());
+		Veiculos v = new Veiculos(dto.getId(), dto.getModelo(), dto.getAno(), dto.getPlaca(), dto.getChassi(), true);
 		Montadora montadora = montadoraService.findByDescricao(dto.getMontadora());
 		Cor cor = corService.findByDescricao(dto.getCor());
 		

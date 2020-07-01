@@ -1,5 +1,7 @@
 package br.mil.marinha.sisconvapi.repositories;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,4 +13,7 @@ import br.mil.marinha.sisconvapi.domain.Cartao;
 public interface CartaoRepository extends JpaRepository<Cartao, Integer>{
 	@Query("SELECT obj FROM Cartao obj WHERE obj.numero = :numero")
 	Cartao findByNumeroCartao(@Param("numero") String numero);
+	
+	@Query("SELECT obj FROM Cartao obj where obj.statusCartao.desc_status_cartao = :status")
+	List<Cartao> findByAllStatus(@Param("status") String status);
 }

@@ -57,7 +57,7 @@ public class ProprietariosDTO {
 		this.cnh = p.getCnh();
 		this.setor = p.getSetor().getDesc_setor();
 		this.posto = p.getPosto().getDesc_posto();
-		this.cartao = p.getCartao().getNumero();
+		this.cartao = p.getCartao() == null ? "Desativado" : p.getCartao().getNumero();
 		this.veiculos = p.getVeiculos().stream().map(v -> new VeiculosDTO(v)).collect(Collectors.toSet());
 		
 	}

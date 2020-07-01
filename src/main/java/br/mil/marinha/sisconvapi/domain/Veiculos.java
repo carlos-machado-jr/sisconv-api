@@ -13,53 +13,56 @@ import javax.persistence.ManyToOne;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Veiculos implements Serializable{
+public class Veiculos implements Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
 	private String modelo;
-	
+
 	private String ano;
-	
+
 	@Column(unique = true)
 	private String placa;
-	
+
 	@Column(unique = true)
 	private String chassi;
-	
+
+	private boolean ativo;
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_proprietario")
 	private Proprietarios proprietario;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_montadora")
 	private Montadora montadora;
-	
+
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_cor")
 	private Cor cor;
-	
+
 	public Veiculos() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Veiculos(Integer id, String modelo, String ano, String placa, String chassi) {
+	public Veiculos(Integer id, String modelo, String ano, String placa, String chassi, boolean ativo) {
 		super();
 		this.id = id;
 		this.modelo = modelo;
 		this.ano = ano;
 		this.placa = placa;
 		this.chassi = chassi;
+		this.ativo = ativo;
 	}
 
 	public Integer getId() {
@@ -101,8 +104,15 @@ public class Veiculos implements Serializable{
 	public void setChassi(String chassi) {
 		this.chassi = chassi;
 	}
-	
-	
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+
 	public Proprietarios getProprietario() {
 		return proprietario;
 	}
@@ -151,6 +161,5 @@ public class Veiculos implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
+
 }
