@@ -12,6 +12,7 @@ import br.mil.marinha.sisconvapi.domain.StatusCartao;
 import br.mil.marinha.sisconvapi.dto.CartaoDTO;
 import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.repositories.CartaoRepository;
+import br.mil.marinha.sisconvapi.service.exceptions.ObjectNotFoundException;
 
 @Service
 public class CartaoService {
@@ -19,15 +20,24 @@ public class CartaoService {
 	@Autowired
 	CartaoRepository repo;
 
-	public List<Cartao> findAll() {
+	public List<Cartao> findAllifDisponivel() {
 		return repo.findByAllStatus("Disponivel");
+	}
+
+	public List<Cartao> findAllifIndisponivel() {
+		return repo.findByAllStatus("Indisponivel");
+	}
+
+	public Cartao findByNumeroCartao(String numero) {
+		return repo.findByNumeroCartao(numero);
+
 	}
 
 	public Cartao save(Cartao c) {
 		return repo.save(c);
 	}
 
-	public Cartao fromDTO(CartaoDTO dto) {
+	public Cartao convertDTO(CartaoDTO dto) {
 		Cartao c = new Cartao(null, dto.getNumero(), new Date());
 		StatusCartao status = new StatusCartao(1, "Disponivel");
 		c.setStatusCartao(status);
@@ -35,15 +45,15 @@ public class CartaoService {
 	}
 
 	public Cartao ifExist(ProprietariosDTO dto) {
-		Cartao c = repo.findByNumeroCartao(dto.getCartao());
+		Cartao c = findByNumeroCartao(dto.getCartao());
 
 		if (c == null) {
 
 			return setCartao(dto);
 
-		} else if (c.getStatusCartao().getDesc_status_cartao().equals("Indisponivel") && dto.getId() == null) {
+		} else if (IfStatusIs(c, "Indisponivel") && dto.getId() == null) {
 
-			throw new NullPointerException("Esse cartao ja está em uso");
+			throw new ObjectNotFoundException("Esse cartao ja está em uso");
 		}
 
 		return setCartao(c);
@@ -56,16 +66,16 @@ public class CartaoService {
 		c.setProprietario(null);
 		StatusCartao status = new StatusCartao(1, "Disponivel");
 		c.setStatusCartao(status);
-		
+
 		repo.save(c);
 
 	}
 
-	public void active(Cartao c) {
-
-		c.setNumero("399");
-		repo.save(c);
-
+	
+	
+	
+	private boolean IfStatusIs(Cartao c, String status) {
+		return c.getStatusCartao().getDesc_status_cartao().equals(status);
 	}
 
 	private Cartao setCartao(Cartao c) {

@@ -28,7 +28,7 @@ public class CartaoResource {
 
 	@GetMapping
 	public @Valid ResponseEntity<List<CartaoDTO>> findAll() {
-		List<Cartao> cartaoList = service.findAll();
+		List<Cartao> cartaoList = service.findAllifDisponivel();
 		List<CartaoDTO> dtoList = cartaoList.stream()
 				.map(c -> c.getProprietario() == null ? new CartaoDTO(c) : new CartaoDTO(c, c.getProprietario()))
 				.collect(Collectors.toList());
@@ -38,7 +38,7 @@ public class CartaoResource {
 	
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody CartaoDTO dto){
-		Cartao c = service.fromDTO(dto);
+		Cartao c = service.convertDTO(dto);
 		service.save(c);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(c.getId()).toUri();
 		return ResponseEntity.created(uri).build();
