@@ -75,15 +75,7 @@ public class ProprietarioService {
 
 	}
 
-	public void active(Integer id) {
-		Proprietarios p = findById(id);
-		p.setAtivo(true);
-
-		cartaoService.active(p.getCartao());
-
-		repo.save(p);
-
-	}
+	
 
 	private Proprietarios transformDTO(ProprietariosDTO dto) {
 

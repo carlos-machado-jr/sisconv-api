@@ -5,8 +5,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,14 +41,11 @@ public class VeiculoService {
 				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Veiculos.class.getName()));
 		
 	}
-	@Transactional
-	public Veiculos save(Veiculos v) {
-		return repo.save(v);
-	}
+	
 
-	public Set<Veiculos> create(Set<VeiculosDTO> veiculosLista, Proprietarios p) {
+	public Set<Veiculos> createOrUpdate(Set<VeiculosDTO> veiculosLista, Proprietarios p) {
 		
-		return veiculosLista.stream().map(v -> transformDTO(v, p)).collect(Collectors.toSet());
+		return veiculosLista.stream().map(v -> createVeiculo(v, p)).collect(Collectors.toSet());
 
 	}
 	
@@ -58,22 +53,15 @@ public class VeiculoService {
 		Set<Veiculos> veiculos = repo.findByIdProprietario(idProprietario);
 		veiculos.forEach(v -> {
 			v.setAtivo(false);
-			save(v);
+			repo.save(v);
 		});
 		
 
 	}
 	
-	public void active(Integer idProprietario) {
-		Set<Veiculos> veiculos = repo.findByIdProprietario(idProprietario);
-		veiculos.forEach(v -> {
-			v.setAtivo(true);
-			save(v);
-		});
+	
+	private Veiculos createVeiculo(VeiculosDTO dto, Proprietarios p) {
 		
-
-	}
-	private Veiculos transformDTO(VeiculosDTO dto, Proprietarios p) {
 		Veiculos v = new Veiculos(dto.getId(), dto.getModelo(), dto.getAno(), dto.getPlaca(), dto.getChassi(), true);
 		Montadora montadora = montadoraService.findByDescricao(dto.getMontadora());
 		Cor cor = corService.findByDescricao(dto.getCor());
@@ -83,5 +71,7 @@ public class VeiculoService {
 		v.setProprietario(p);
 		return repo.save(v);
 	}
+	
+	
 
 }

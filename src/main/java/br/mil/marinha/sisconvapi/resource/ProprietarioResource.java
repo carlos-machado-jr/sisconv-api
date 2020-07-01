@@ -25,6 +25,7 @@ import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.dto.VeiculosDTO;
 import br.mil.marinha.sisconvapi.service.ProprietarioService;
 import br.mil.marinha.sisconvapi.service.VeiculoService;
+import br.mil.marinha.sisconvapi.service.exceptions.ObjectNotFoundException;
 
 @RestController
 @RequestMapping("/proprietarios")
@@ -69,7 +70,7 @@ public class ProprietarioResource {
 		Proprietarios proprietario = proprietariosService.create(dto);
 		Set<VeiculosDTO> veiculos = dto.getVeiculos();
 
-		veiculoService.create(veiculos, proprietario);
+		veiculoService.createOrUpdate(veiculos, proprietario);
 
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proprietario.getId())
 				.toUri();
@@ -79,13 +80,17 @@ public class ProprietarioResource {
 	@Transactional
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ProprietariosDTO dto) {
-		dto.setId(id);
-		Proprietarios proprietario = proprietariosService.update(dto);
-		Set<VeiculosDTO> veiculos = dto.getVeiculos();
+		Proprietarios proprietario = proprietariosService.findById(id);
+		if (proprietario.isAtivo()) {
+			dto.setId(id);
+			proprietario = proprietariosService.update(dto);
+			Set<VeiculosDTO> veiculos = dto.getVeiculos();
 
-		veiculoService.create(veiculos, proprietario);
+			veiculoService.createOrUpdate(veiculos, proprietario);
 
-		return ResponseEntity.noContent().build();
+			return ResponseEntity.noContent().build();
+		}
+		throw new ObjectNotFoundException("Usuario desativado!");
 	}
 	
 	@DeleteMapping("/desativar/{id}")
@@ -96,10 +101,18 @@ public class ProprietarioResource {
 	}
 	
 	@PutMapping("/ativar/{id}")
-	public ResponseEntity<Void> active(@PathVariable Integer id){
-		proprietariosService.active(id);
-		veiculoService.active(id);
-		return ResponseEntity.noContent().build();
+	public ResponseEntity<Void> active(@PathVariable Integer id, @RequestBody ProprietariosDTO dto){
+		Proprietarios proprietario = proprietariosService.findById(id);
+		
+		if(!proprietario.isAtivo()) {
+			dto.setId(id);
+			proprietario = proprietariosService.update(dto);
+			Set<VeiculosDTO> veiculos = dto.getVeiculos();
+			veiculoService.createOrUpdate(veiculos, proprietario);
+			return ResponseEntity.noContent().build();
+		}
+		throw new ObjectNotFoundException("Usuario ja esta ativado!");
+		
 	}
 	
 
