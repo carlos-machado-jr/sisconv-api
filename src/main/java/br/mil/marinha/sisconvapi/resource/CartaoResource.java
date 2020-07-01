@@ -27,9 +27,9 @@ public class CartaoResource {
 	@Autowired
 	CartaoService service;
 
-	@GetMapping("/tudo")
+	@GetMapping
 	public ResponseEntity<List<CartaoDTO>> findAll() {
-		List<Cartao> cartaoList = service.findAllifDisponivel();
+		List<Cartao> cartaoList = service.findAll();
 		List<CartaoDTO> dtoList = createCartaoDTO(cartaoList);
 
 		return ResponseEntity.ok(dtoList);

@@ -28,26 +28,34 @@ public class ProprietarioService {
 	@Autowired
 	CartaoService cartaoService;
 
-	public List<Proprietarios> findByAllActivated() {
-		return repo.findByAllActivated();
+	public List<Proprietarios> findAll() {
+		return repo.findAll();
 	}
 
-	public List<Proprietarios> findByAllDisabled() {
-		return repo.findByAllDisabled();
-
+	public List<Proprietarios> findAllActivated() {
+		return repo.findAllActivated();
 	}
 
-	public Proprietarios findByIdAndAtivo(Integer id) {
-		Optional<Proprietarios> c = repo.findByIdAndAtivo(id);
-		return c.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Proprietarios.class.getName()));
+	public List<Proprietarios> findAllDisabled() {
+		return repo.findAllDisabled();
 
 	}
 
 	public Proprietarios findById(Integer id) {
 		Optional<Proprietarios> c = repo.findById(id);
-		return c.orElseThrow(() -> new ObjectNotFoundException(
-				"Objeto nao encontrado! Id: " + id + ", Tipo: " + Proprietarios.class.getName()));
+		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario não encontrado!"));
+
+	}
+
+	public Proprietarios findByIdActived(Integer id) {
+		Optional<Proprietarios> c = repo.findByIdAndAtivo(id, true);
+		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario desativado no momento!"));
+
+	}
+
+	public Proprietarios findByIdDisabled(Integer id) {
+		Optional<Proprietarios> c = repo.findByIdAndAtivo(id, false);
+		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario ativo no momento!"));
 
 	}
 
@@ -66,7 +74,7 @@ public class ProprietarioService {
 	}
 
 	public void deactivate(Integer id) {
-		Proprietarios p = findByIdAndAtivo(id);
+		Proprietarios p = findByIdActived(id);
 		p.setAtivo(false);
 		cartaoService.deactivate(p.getCartao());
 		p.setCartao(null);
@@ -75,7 +83,9 @@ public class ProprietarioService {
 
 	}
 
-	
+	private ObjectNotFoundException objectNotFoundException(Integer id, String message) {
+		return new ObjectNotFoundException(message + "Id: " + id + ", Tipo: " + Proprietarios.class.getName());
+	}
 
 	private Proprietarios transformDTO(ProprietariosDTO dto) {
 

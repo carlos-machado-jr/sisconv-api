@@ -15,12 +15,13 @@ public interface ProprietarioRepository extends JpaRepository<Proprietarios, Int
 	@Query("SELECT obj FROM Proprietarios obj WHERE obj.nip = :nip")
 	Proprietarios findByNip(@Param("nip") String nip);
 	
-	@Query("SELECT obj FROM Proprietarios obj WHERE obj.id = :id and obj.ativo = true")
-	Optional<Proprietarios> findByIdAndAtivo(@Param("id") Integer id);
+	@Query("SELECT obj FROM Proprietarios obj WHERE obj.id = :id and obj.ativo = :ativo")
+	Optional<Proprietarios> findByIdAndAtivo(@Param("id") Integer id, @Param("ativo") boolean ativo);
+	
 	
 	@Query("SELECT obj FROM Proprietarios obj where obj.ativo = true")
-	List<Proprietarios> findByAllActivated();
+	List<Proprietarios> findAllActivated();
 	
 	@Query("SELECT obj FROM Proprietarios obj where obj.ativo = false")
-	List<Proprietarios> findByAllDisabled();
+	List<Proprietarios> findAllDisabled();
 }

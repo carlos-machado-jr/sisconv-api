@@ -37,27 +37,51 @@ public class ProprietarioResource {
 	VeiculoService veiculoService;
 
 	@GetMapping
-	public ResponseEntity<List<ProprietariosDTO>> findByAllActivated() {
-		List<Proprietarios> proprietariosList = proprietariosService.findByAllActivated();
+	public ResponseEntity<List<ProprietariosDTO>> findAll() {
+		List<Proprietarios> proprietariosList = proprietariosService.findAll();
 
-		List<ProprietariosDTO> dtoList = proprietariosList.stream().map(p -> new ProprietariosDTO(p))
-				.collect(Collectors.toList());
+		List<ProprietariosDTO> dtoList = createProprietariosDTO(proprietariosList);
 		return ResponseEntity.ok(dtoList);
 	}
-	
-	@GetMapping("/desativados")
-	public ResponseEntity<List<ProprietariosDTO>> findByAllDisabled() {
-		List<Proprietarios> proprietariosList = proprietariosService.findByAllDisabled();
 
-		List<ProprietariosDTO> dtoList = proprietariosList.stream().map(p -> new ProprietariosDTO(p))
-				.collect(Collectors.toList());
+	@GetMapping("/ativados")
+	public ResponseEntity<List<ProprietariosDTO>> findAllActivated() {
+		List<Proprietarios> proprietariosList = proprietariosService.findAllActivated();
+
+		List<ProprietariosDTO> dtoList = createProprietariosDTO(proprietariosList);
+		return ResponseEntity.ok(dtoList);
+	}
+
+	@GetMapping("/desativados")
+	public ResponseEntity<List<ProprietariosDTO>> findAllDisabled() {
+		List<Proprietarios> proprietariosList = proprietariosService.findAllDisabled();
+
+		List<ProprietariosDTO> dtoList = createProprietariosDTO(proprietariosList);
 		return ResponseEntity.ok(dtoList);
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<ProprietariosDTO> findById(@PathVariable Integer id) {
 
-		Proprietarios p = proprietariosService.findByIdAndAtivo(id);
+		Proprietarios p = proprietariosService.findById(id);
+
+		ProprietariosDTO dto = new ProprietariosDTO(p);
+		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("/{id}/ativado")
+	public ResponseEntity<ProprietariosDTO> findByIdActived(@PathVariable Integer id) {
+
+		Proprietarios p = proprietariosService.findByIdActived(id);
+
+		ProprietariosDTO dto = new ProprietariosDTO(p);
+		return ResponseEntity.ok(dto);
+	}
+
+	@GetMapping("/{id}/desativado")
+	public ResponseEntity<ProprietariosDTO> findByIdDisabled(@PathVariable Integer id) {
+
+		Proprietarios p = proprietariosService.findByIdDisabled(id);
 
 		ProprietariosDTO dto = new ProprietariosDTO(p);
 		return ResponseEntity.ok(dto);
@@ -93,18 +117,20 @@ public class ProprietarioResource {
 		throw new ObjectNotFoundException("Usuario desativado!");
 	}
 	
+	@Transactional
 	@DeleteMapping("/desativar/{id}")
-	public ResponseEntity<Void> delete(@PathVariable Integer id){
+	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		proprietariosService.deactivate(id);
 		veiculoService.deactivate(id);
 		return ResponseEntity.noContent().build();
 	}
 	
+	@Transactional
 	@PutMapping("/ativar/{id}")
-	public ResponseEntity<Void> active(@PathVariable Integer id, @RequestBody ProprietariosDTO dto){
+	public ResponseEntity<Void> active(@PathVariable Integer id, @RequestBody ProprietariosDTO dto) {
 		Proprietarios proprietario = proprietariosService.findById(id);
-		
-		if(!proprietario.isAtivo()) {
+
+		if (!proprietario.isAtivo()) {
 			dto.setId(id);
 			proprietario = proprietariosService.update(dto);
 			Set<VeiculosDTO> veiculos = dto.getVeiculos();
@@ -112,8 +138,11 @@ public class ProprietarioResource {
 			return ResponseEntity.noContent().build();
 		}
 		throw new ObjectNotFoundException("Usuario ja esta ativado!");
-		
+
 	}
-	
+
+	private List<ProprietariosDTO> createProprietariosDTO(List<Proprietarios> proprietariosList) {
+		return proprietariosList.stream().map(p -> new ProprietariosDTO(p)).collect(Collectors.toList());
+	}
 
 }
