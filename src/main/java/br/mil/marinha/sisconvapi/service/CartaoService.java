@@ -2,6 +2,7 @@ package br.mil.marinha.sisconvapi.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,10 @@ public class CartaoService {
 
 	@Autowired
 	CartaoRepository repo;
-
+	
+	public List<Cartao> findAll(){
+		return repo.findAll();
+	}
 	public List<Cartao> findAllifDisponivel() {
 		return repo.findByAllStatus("Disponivel");
 	}
@@ -27,7 +31,12 @@ public class CartaoService {
 	public List<Cartao> findAllifIndisponivel() {
 		return repo.findByAllStatus("Indisponivel");
 	}
-
+	
+	public Cartao findById(Integer id) {
+		Optional<Cartao> cartao =  repo.findById(id);
+		return cartao.orElseThrow(() -> new ObjectNotFoundException("Cartao nao encontrado!"));
+	}
+	
 	public Cartao findByNumeroCartao(String numero) {
 		return repo.findByNumeroCartao(numero);
 
