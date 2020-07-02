@@ -13,12 +13,17 @@ import br.mil.marinha.sisconvapi.domain.Veiculos;
 
 @Repository
 public interface VeiculoRepository extends  JpaRepository<Veiculos, Integer>{
-	@Query("SELECT obj FROM Veiculos obj WHERE obj.id = :id and obj.ativo = true")
-	Optional<Veiculos> findByIdAndAtivo(@Param("id") Integer id);
+	@Query("SELECT obj FROM Veiculos obj WHERE obj.id = :id and obj.ativo = :ativo")
+	Optional<Veiculos> findByIdAndAtivo(@Param("id") Integer id, @Param("ativo") boolean ativo);
 	
 	@Query("SELECT obj FROM Veiculos obj WHERE obj.proprietario.id = :id_proprietario")
 	Set<Veiculos> findByIdProprietario(@Param("id_proprietario") Integer id);
 	
 	@Query("SELECT obj FROM Veiculos obj where obj.ativo = true")
-	List<Veiculos> findByAllAtivos();
+	List<Veiculos> findAllActivated();
+	
+	@Query("SELECT obj FROM Veiculos obj where obj.ativo = false")
+	List<Veiculos> findAllDisabled();
+	
+	
 }

@@ -43,19 +43,19 @@ public class ProprietarioService {
 
 	public Proprietarios findById(Integer id) {
 		Optional<Proprietarios> c = repo.findById(id);
-		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario não encontrado!"));
+		return c.orElseThrow(() -> objectNotFoundException(id));
 
 	}
 
 	public Proprietarios findByIdActived(Integer id) {
 		Optional<Proprietarios> c = repo.findByIdAndAtivo(id, true);
-		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario desativado no momento!"));
+		return c.orElseThrow(() -> objectNotFoundException(id));
 
 	}
 
 	public Proprietarios findByIdDisabled(Integer id) {
 		Optional<Proprietarios> c = repo.findByIdAndAtivo(id, false);
-		return c.orElseThrow(() -> objectNotFoundException(id, "Proprietario ativo no momento!"));
+		return c.orElseThrow(() -> objectNotFoundException(id));
 
 	}
 
@@ -83,8 +83,8 @@ public class ProprietarioService {
 
 	}
 
-	private ObjectNotFoundException objectNotFoundException(Integer id, String message) {
-		return new ObjectNotFoundException(message + "Id: " + id + ", Tipo: " + Proprietarios.class.getName());
+	private ObjectNotFoundException objectNotFoundException(Integer id) {
+		return new ObjectNotFoundException("Proprietario não encontrado!  id: " + id + ", Tipo: " + Proprietarios.class.getName());
 	}
 
 	private Proprietarios transformDTO(ProprietariosDTO dto) {
