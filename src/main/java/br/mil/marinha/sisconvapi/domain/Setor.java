@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Setor implements Serializable{
 
@@ -25,6 +27,8 @@ public class Setor implements Serializable{
 	@Column(unique = true)
 	private String desc_setor;
 	
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "setor")
 	private List<Proprietarios> proprietarios;
 	

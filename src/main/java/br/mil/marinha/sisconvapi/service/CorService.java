@@ -29,8 +29,8 @@ public class CorService {
 		return corRepository.findByDescricao(descricao);
 	}
 	
-	public Cor create(Cor cor) {
-		return corRepository.save(cor);
+	public void create(Cor cor) {
+		corRepository.save(cor);
 	}
 	
 	public Cor update(Cor cor) {
