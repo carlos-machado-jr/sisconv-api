@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -22,7 +24,7 @@ public class Usuarios implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private String nome;
+	private String nome_usuario;
 	
 	@Column(unique = true)
 	private String email;
@@ -35,6 +37,10 @@ public class Usuarios implements Serializable{
 	
 	private boolean ativo;
 	
+	@ManyToOne
+	@JoinColumn(name = "id_permissao")
+	private Permissoes permissoes;
+	
 	
 	public Usuarios() {
 		// TODO Auto-generated constructor stub
@@ -44,7 +50,7 @@ public class Usuarios implements Serializable{
 	public Usuarios(Integer id, String nome, String email, String nip, String senha, boolean ativo) {
 		super();
 		this.id = id;
-		this.nome = nome;
+		this.nome_usuario = nome;
 		this.email = email;
 		this.nip = nip;
 		this.senha = senha;
@@ -62,13 +68,15 @@ public class Usuarios implements Serializable{
 	}
 
 
-	public String getNome() {
-		return nome;
+	
+
+	public String getNome_usuario() {
+		return nome_usuario;
 	}
 
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome_usuario(String nome_usuario) {
+		this.nome_usuario = nome_usuario;
 	}
 
 
@@ -109,6 +117,17 @@ public class Usuarios implements Serializable{
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+	
+	
+
+	public Permissoes getPermissoes() {
+		return permissoes;
+	}
+
+
+	public void setPermissoes(Permissoes permissoes) {
+		this.permissoes = permissoes;
 	}
 
 

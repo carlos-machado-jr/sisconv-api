@@ -12,16 +12,18 @@ public class UsuariosDTO {
 	private Integer id;
 
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(min = 5,  message = "Insira um nome completo!")
-	private String nome;
+	@Length(max = 10,  message = "Insira um login com ate 10 caracteres!")
+	private String nome_usuario;
 	
-	@NotEmpty(message = "Preenchimento obrigatorio")
+	
 	@Email
 	private String email;
 	
-	@NotEmpty(message = "Preenchimento obrigatorio")
+	
 	@Length(min = 8, max = 8, message = "Insira um NIP valido!")
 	private String nip;
+	
+	private String permissao;
 	
 	
 	public UsuariosDTO() {
@@ -31,9 +33,11 @@ public class UsuariosDTO {
 	public UsuariosDTO(Usuarios u){
 		super();
 		this.id = u.getId();
-		this.nome = u.getNome();
+		this.nome_usuario = u.getNome_usuario();
 		this.email = u.getEmail();
 		this.nip = u.getNip();
+		this.permissao = u.getPermissoes().getDesc_permissoes();
+		
 	}
 
 	public Integer getId() {
@@ -44,12 +48,14 @@ public class UsuariosDTO {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	
+
+	public String getNome_usuario() {
+		return nome_usuario;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNome_usuario(String nome_usuario) {
+		this.nome_usuario = nome_usuario;
 	}
 
 	public String getEmail() {
@@ -67,6 +73,16 @@ public class UsuariosDTO {
 	public void setNip(String nip) {
 		this.nip = nip;
 	}
+
+	public String getPermissao() {
+		return permissao;
+	}
+
+	public void setPermissao(String permissao) {
+		this.permissao = permissao;
+	}
+	
+	
 	
 	
 }
