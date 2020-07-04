@@ -5,41 +5,29 @@ import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
-import br.mil.marinha.sisconvapi.domain.Usuarios;
-
-public class UsuariosDTO {
+public class UsuarioNewDTO {
 
 	private Integer id;
 
 	@NotEmpty(message = "Preenchimento obrigatorio")
-	@Length(max = 10,  message = "Insira um login com ate 10 caracteres!")
+	@Length(max = 10, message = "Insira um login com ate 10 caracteres!")
 	private String nome_usuario;
-	
-	
+
 	@Email
 	private String email;
-	
+
+	@NotEmpty(message = "Preenchimento obrigatorio")
+	private String senha;
 	
 	@Length(min = 8, max = 8, message = "Insira um NIP valido!")
 	private String nip_responsavel;
-	
+
 	private String permissao;
-	
-	
-	public UsuariosDTO() {
+
+	public UsuarioNewDTO() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public UsuariosDTO(Usuarios u){
-		super();
-		this.id = u.getId();
-		this.nome_usuario = u.getNome_usuario();
-		this.email = u.getEmail();
-		this.nip_responsavel = u.getNip();
-		this.permissao = u.getPermissoes().getDesc_permissoes();
-		
-	}
-
+	
 	public Integer getId() {
 		return id;
 	}
@@ -47,8 +35,6 @@ public class UsuariosDTO {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
-	
 
 	public String getNome_usuario() {
 		return nome_usuario;
@@ -66,6 +52,15 @@ public class UsuariosDTO {
 		this.email = email;
 	}
 
+	
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
 	public String getNip_responsavel() {
 		return nip_responsavel;
 	}
@@ -81,8 +76,5 @@ public class UsuariosDTO {
 	public void setPermissao(String permissao) {
 		this.permissao = permissao;
 	}
-	
-	
-	
-	
+
 }
