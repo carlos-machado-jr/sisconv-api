@@ -3,6 +3,7 @@ package br.mil.marinha.sisconvapi.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.mil.marinha.sisconvapi.domain.Permissoes;
@@ -19,8 +20,8 @@ public class UsuarioService {
 	@Autowired
 	PermissaoService permissaoService;
 	
-//	@Autowired
-//	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 	
 	public List<Usuarios> findAll(){
 		return repo.findAll();
@@ -35,7 +36,7 @@ public class UsuarioService {
 	
 	private Usuarios createUsuario(UsuarioNewDTO newDTO) {
 		
-		Usuarios usuario = new Usuarios(null, newDTO.getNome_usuario(), newDTO.getEmail(), newDTO.getNip_responsavel(), newDTO.getSenha(), true);
+		Usuarios usuario = new Usuarios(null, newDTO.getNome_usuario(), newDTO.getEmail(), newDTO.getNip_responsavel(), encoder.encode(newDTO.getSenha()), true);
 		Permissoes permissao = permissaoService.findByDescricao(newDTO.getPermissao());
 		usuario.setPermissoes(permissao);
 		return usuario;
