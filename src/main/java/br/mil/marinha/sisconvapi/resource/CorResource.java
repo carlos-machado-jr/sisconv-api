@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,8 @@ public class CorResource {
 
 		return ResponseEntity.ok(cor);
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@PostMapping
 	public ResponseEntity<Void> create(@RequestBody Cor cor) {
 		corService.create(cor);
@@ -45,6 +47,7 @@ public class CorResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Cor c){
 		

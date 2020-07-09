@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,7 @@ public class SetorResource {
 		return ResponseEntity.ok(setor);
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@PostMapping
 	public ResponseEntity<Void> create(@RequestBody Setor setor){
 		setorService.create(setor);
@@ -43,6 +45,7 @@ public class SetorResource {
 		return ResponseEntity.created(uri).build();
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@PathVariable Integer id, @RequestBody Setor setor){
 		setor.setId(id);
