@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/posto/**",
 			"/setor/**",
 			"/usuarios/**",
-			"/permissoes/**",
+			
 			"/cartoes/**"
 			
 	};
@@ -53,8 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/montadora/**",
 			"/posto/**",
 			"/setor/**",
-			"/usuarios/**",
-			"/permissoes/**",
+			
+			
 			"/cartoes/**"
 	};
 
@@ -65,8 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/montadora/**",
 			"/posto/**",
 			"/setor/**",
-			"/usuarios/**",
-			"/permissoes/**",
+			
+			
 			"/cartoes/**"
 	};
 	
@@ -77,8 +77,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			"/montadora/**",
 			"/posto/**",
 			"/setor/**",
-			"/usuarios/**",
-			"/permissoes/**",
+			
+			
 			"/cartoes/**"
 	};
 

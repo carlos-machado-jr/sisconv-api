@@ -7,8 +7,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import br.mil.marinha.sisconvapi.domain.Permissoes;
-
 public class UserSS implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	
@@ -67,7 +65,8 @@ public class UserSS implements UserDetails {
 		return true;
 	}
 	
-	public boolean hasRole(Permissoes permissoes) {
-		return getAuthorities().contains(new SimpleGrantedAuthority(permissoes.getDesc_permissoes()));
+	public boolean hasRole(String permissoes) {
+		final String PREFIX = "ROLE_";
+		return getAuthorities().contains(new SimpleGrantedAuthority(PREFIX + permissoes));
 	}
 }
