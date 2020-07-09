@@ -46,6 +46,10 @@ public class ProprietarioService {
 		return c.orElseThrow(() -> objectNotFoundException(id));
 
 	}
+	
+	public Proprietarios findByNip(String nip) {
+		return repo.findByNip(nip);
+	}
 
 	public Proprietarios findByIdActived(Integer id) {
 		Optional<Proprietarios> c = repo.findByIdAndAtivo(id, true);

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,6 +37,7 @@ public class ProprietarioResource {
 	@Autowired
 	VeiculoService veiculoService;
 
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping
 	public ResponseEntity<List<ProprietariosDTO>> findAll() {
 		List<Proprietarios> proprietariosList = proprietariosService.findAll();
@@ -52,6 +54,7 @@ public class ProprietarioResource {
 		return ResponseEntity.ok(dtoList);
 	}
 
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/desativados")
 	public ResponseEntity<List<ProprietariosDTO>> findAllDisabled() {
 		List<Proprietarios> proprietariosList = proprietariosService.findAllDisabled();
@@ -60,6 +63,7 @@ public class ProprietarioResource {
 		return ResponseEntity.ok(dtoList);
 	}
 
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ProprietariosDTO> findById(@PathVariable Integer id) {
 
@@ -69,6 +73,7 @@ public class ProprietarioResource {
 		return ResponseEntity.ok(dto);
 	}
 
+	
 	@GetMapping("/{id}/ativado")
 	public ResponseEntity<ProprietariosDTO> findByIdActived(@PathVariable Integer id) {
 
@@ -77,7 +82,8 @@ public class ProprietarioResource {
 		ProprietariosDTO dto = new ProprietariosDTO(p);
 		return ResponseEntity.ok(dto);
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/{id}/desativado")
 	public ResponseEntity<ProprietariosDTO> findByIdDisabled(@PathVariable Integer id) {
 
@@ -86,21 +92,27 @@ public class ProprietarioResource {
 		ProprietariosDTO dto = new ProprietariosDTO(p);
 		return ResponseEntity.ok(dto);
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@Transactional
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody ProprietariosDTO dto) {
+		Proprietarios proprietario = proprietariosService.findByNip(dto.getNip());
+		if (proprietario == null) {
+			proprietario = proprietariosService.create(dto);
+			Set<VeiculosDTO> veiculos = dto.getVeiculos();
 
-		Proprietarios proprietario = proprietariosService.create(dto);
-		Set<VeiculosDTO> veiculos = dto.getVeiculos();
+			veiculoService.createOrUpdate(veiculos, proprietario);
 
-		veiculoService.createOrUpdate(veiculos, proprietario);
-
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proprietario.getId())
-				.toUri();
-		return ResponseEntity.created(uri).build();
+			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(proprietario.getId())
+					.toUri();
+			return ResponseEntity.created(uri).build();
+		} 
+		return active(proprietario.getId(), dto);
+		
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@Transactional
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@Valid @PathVariable Integer id, @RequestBody ProprietariosDTO dto) {
@@ -117,6 +129,7 @@ public class ProprietarioResource {
 		throw new ObjectNotFoundException("Usuario desativado!");
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@Transactional
 	@DeleteMapping("/desativar/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
@@ -125,6 +138,7 @@ public class ProprietarioResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@Transactional
 	@PutMapping("/ativar/{id}")
 	public ResponseEntity<Void> active(@PathVariable Integer id, @RequestBody ProprietariosDTO dto) {
