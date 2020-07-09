@@ -25,6 +25,7 @@ public class UsuariosDTO {
 	
 	private String permissao;
 	
+	private String ativo;
 	
 	public UsuariosDTO() {
 		// TODO Auto-generated constructor stub
@@ -37,6 +38,7 @@ public class UsuariosDTO {
 		this.email = u.getEmail();
 		this.nip_responsavel = u.getNip();
 		this.permissao = u.getPermissoes().getDesc_permissoes();
+		this.ativo = u.isAtivo() ? "ativado": "desativado";
 		
 	}
 
@@ -80,6 +82,14 @@ public class UsuariosDTO {
 
 	public void setPermissao(String permissao) {
 		this.permissao = permissao;
+	}
+
+	public String getAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(String ativo) {
+		this.ativo = ativo;
 	}
 	
 	
