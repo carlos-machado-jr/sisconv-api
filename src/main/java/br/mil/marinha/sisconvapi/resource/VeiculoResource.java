@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class VeiculoResource {
 	VeiculoService veiculoService;
 	
 
-	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping
 	public ResponseEntity<List<VeiculosDTO>> findAll(){
 		List<Veiculos> veiculosList = veiculoService.findAll();
@@ -32,6 +33,7 @@ public class VeiculoResource {
 		
 		return ResponseEntity.ok(dtoList);
 	}
+	
 	
 	@GetMapping("/ativados")
 	public ResponseEntity<List<VeiculosDTO>> findAllActivated(){
@@ -42,6 +44,7 @@ public class VeiculoResource {
 		return ResponseEntity.ok(dtoList);
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/desativados")
 	public ResponseEntity<List<VeiculosDTO>> findAllDisabled(){
 		List<Veiculos> veiculosList = veiculoService.findAllDisabled();
@@ -52,7 +55,7 @@ public class VeiculoResource {
 	}
 	
 	
-	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/{id}")
 	public ResponseEntity<VeiculosDTO> findById(@PathVariable Integer id) {
 
@@ -61,6 +64,7 @@ public class VeiculoResource {
 		VeiculosDTO dto = new VeiculosDTO(v);
 		return ResponseEntity.ok(dto);
 	}
+	
 	
 	@GetMapping("/{id}/ativado")
 	public ResponseEntity<VeiculosDTO> findByIdActived(@PathVariable Integer id) {
@@ -71,6 +75,7 @@ public class VeiculoResource {
 		return ResponseEntity.ok(dto);
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador')")
 	@GetMapping("/{id}/desativado")
 	public ResponseEntity<VeiculosDTO> findByIdDisabled(@PathVariable Integer id) {
 
@@ -80,6 +85,7 @@ public class VeiculoResource {
 		return ResponseEntity.ok(dto);
 	}
 	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@DeleteMapping("/desativar/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Integer id){
 		veiculoService.deactivateById(id);
@@ -87,7 +93,7 @@ public class VeiculoResource {
 		return ResponseEntity.noContent().build();
 	}
 	
-	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	private List<VeiculosDTO> createVeiculosDTO(List<Veiculos> veiculosList){
 		return veiculosList.stream().map(v -> new VeiculosDTO(v)).collect(Collectors.toList());
 	}
