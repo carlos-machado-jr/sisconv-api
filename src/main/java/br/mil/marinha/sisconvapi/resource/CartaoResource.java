@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,8 @@ public class CartaoResource {
 
 	@Autowired
 	CartaoService service;
-
+	
+	
 	@GetMapping
 	public ResponseEntity<List<CartaoDTO>> findAll() {
 		List<Cartao> cartaoList = service.findAll();
@@ -34,7 +36,8 @@ public class CartaoResource {
 
 		return ResponseEntity.ok(dtoList);
 	}
-
+	
+	
 	@GetMapping("/disponiveis")
 	public ResponseEntity<List<CartaoDTO>> findAllifDisponivel() {
 		List<Cartao> cartaoList = service.findAllifDisponivel();
@@ -58,7 +61,8 @@ public class CartaoResource {
 
 		return ResponseEntity.ok(dto);
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	@PostMapping
 	public ResponseEntity<Void> save(@Valid @RequestBody CartaoDTO dto) {
 		Cartao c = service.convertDTO(dto);
@@ -66,7 +70,8 @@ public class CartaoResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(c.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
-
+	
+	@PreAuthorize("hasAnyRole('Administrador') || hasAnyRole('Supervisor')")
 	private List<CartaoDTO> createCartaoDTO(List<Cartao> cartaoList) {
 		return cartaoList.stream()
 				.map(c -> c.getProprietario() == null ? new CartaoDTO(c) : new CartaoDTO(c, c.getProprietario()))
