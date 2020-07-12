@@ -2,13 +2,13 @@ package br.mil.marinha.sisconvapi.security;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,8 +17,10 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 
 import br.mil.marinha.sisconvapi.dto.UsuarioNewDTO;
+import br.mil.marinha.sisconvapi.resource.exceptions.StandardError;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -73,9 +75,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 throws IOException, ServletException {
             response.setStatus(401);
             response.setContentType("application/json"); 
-            response.getWriter().append(json());
+            response.getWriter().append(errorStandard());
         }
         
+        /**
         private String json() {
             long date = new Date().getTime();
             return "{\"timestamp\": " + date + ", "
@@ -83,6 +86,15 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 + "\"error\": \"Não autorizado\", "
                 + "\"message\": \"Nome de usuario ou senha inválidos\", "
                 + "\"path\": \"/login\"}";
+        }**/
+        
+        
+        private String errorStandard() {
+        	StandardError err =new StandardError(HttpStatus.UNAUTHORIZED.value(), "Nome de usuario ou senha inválidos", System.currentTimeMillis());
+        	String errString = new Gson().toJson(err);
+        	
+        	
+        	return errString;
         }
     }
 }
