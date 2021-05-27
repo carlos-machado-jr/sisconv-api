@@ -17,7 +17,7 @@ public class CartaoDTO {
 
 	private Date validade;
 
-	private String status_cartao;
+	private boolean status_cartao;
 	
 	private String nome_proprietario;
 	
@@ -32,7 +32,7 @@ public class CartaoDTO {
 		this.id = c.getId();
 		this.numero = c.getNumero();
 		this.validade = c.getValidade();
-		this.status_cartao = c.getStatusCartao().getDesc_status_cartao();
+		this.status_cartao = c.getStatusCartao();
 		
 	}
 	
@@ -41,7 +41,7 @@ public class CartaoDTO {
 		this.id = c.getId();
 		this.numero = c.getNumero();
 		this.validade = c.getValidade();
-		this.status_cartao = c.getStatusCartao().getDesc_status_cartao();
+		this.status_cartao = c.getStatusCartao();
 		this.nip_proprietario = p.getNip();
 		this.nome_proprietario = p.getNome();
 	}
@@ -71,11 +71,11 @@ public class CartaoDTO {
 		this.validade = validade;
 	}
 
-	public String getStatus_cartao() {
+	public Boolean getStatus_cartao() {
 		return status_cartao;
 	}
 
-	public void setStatus_cartao(String status_cartao) {
+	public void setStatus_cartao(Boolean status_cartao) {
 		this.status_cartao = status_cartao;
 	}
 
@@ -94,6 +94,8 @@ public class CartaoDTO {
 	public void setNip_proprietario(String nip_proprietario) {
 		this.nip_proprietario = nip_proprietario;
 	}
+	
+	
 	
 	
 }

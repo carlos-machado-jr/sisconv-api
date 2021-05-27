@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.mil.marinha.sisconvapi.domain.Cartao;
-import br.mil.marinha.sisconvapi.domain.StatusCartao;
+
 import br.mil.marinha.sisconvapi.dto.CartaoDTO;
 import br.mil.marinha.sisconvapi.dto.ProprietariosDTO;
 import br.mil.marinha.sisconvapi.repositories.CartaoRepository;
@@ -25,11 +25,11 @@ public class CartaoService {
 		return repo.findAll();
 	}
 	public List<Cartao> findAllifDisponivel() {
-		return repo.findByAllStatus("Disponivel");
+		return repo.findByAllStatus(true);
 	}
 
 	public List<Cartao> findAllifIndisponivel() {
-		return repo.findByAllStatus("Indisponivel");
+		return repo.findByAllStatus(false);
 	}
 	
 	public Cartao findById(Integer id) {
@@ -48,8 +48,7 @@ public class CartaoService {
 
 	public Cartao convertDTO(CartaoDTO dto) {
 		Cartao c = new Cartao(null, dto.getNumero(), new Date());
-		StatusCartao status = new StatusCartao(1, "Disponivel");
-		c.setStatusCartao(status);
+		c.setStatusCartao(true);
 		return c;
 	}
 
@@ -60,7 +59,7 @@ public class CartaoService {
 
 			return setCartao(dto);
 
-		} else if (IfStatusIs(c, "Indisponivel") && dto.getId() == null) {
+		} else if (IfStatusIs(c, false) && dto.getId() == null) {
 
 			throw new ObjectNotFoundException("Esse cartao ja está em uso");
 		}
@@ -73,8 +72,7 @@ public class CartaoService {
 	public void deactivate(Cartao c) {
 
 		c.setProprietario(null);
-		StatusCartao status = new StatusCartao(1, "Disponivel");
-		c.setStatusCartao(status);
+		c.setStatusCartao(false);
 
 		repo.save(c);
 
@@ -83,16 +81,15 @@ public class CartaoService {
 	
 	
 	
-	private boolean IfStatusIs(Cartao c, String status) {
-		return c.getStatusCartao().getDesc_status_cartao().equals(status);
+	private boolean IfStatusIs(Cartao c, Boolean status) {
+		return c.getStatusCartao().equals(status);
 	}
 
 	private Cartao setCartao(Cartao c) {
 
 		Cartao cartao = new Cartao(c.getId(), c.getNumero(), new Date());
 
-		StatusCartao statusCartao = new StatusCartao(2, "Indisponivel");
-		cartao.setStatusCartao(statusCartao);
+		cartao.setStatusCartao(false);
 		return repo.save(cartao);
 	}
 
@@ -100,8 +97,8 @@ public class CartaoService {
 
 		Cartao cartao = new Cartao(null, dto.getCartao(), new Date());
 
-		StatusCartao statusCartao = new StatusCartao(2, "Indisponivel");
-		cartao.setStatusCartao(statusCartao);
+		
+		cartao.setStatusCartao(false);
 		return repo.save(cartao);
 	}
 

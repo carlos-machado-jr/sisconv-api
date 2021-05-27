@@ -13,9 +13,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Audited
+@AuditTable("proprietarios_Audit")
 public class Proprietarios implements Serializable{
 
 	/**
@@ -176,6 +181,8 @@ public class Proprietarios implements Serializable{
 			return false;
 		return true;
 	}
+
+	
 	
 	
 	

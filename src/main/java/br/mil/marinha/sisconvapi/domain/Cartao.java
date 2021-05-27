@@ -8,13 +8,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToOne;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+@Audited
 @Entity
+@AuditTable(value = "cartao_audit")
 public class Cartao implements Serializable{
 
 	/**
@@ -32,9 +35,9 @@ public class Cartao implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private Date validade;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_status_cartao")
-	private StatusCartao statusCartao;
+//	@ManyToOne
+//	@JoinColumn(name = "id_status_cartao")
+	private Boolean statusCartao;
 	
 	@OneToOne( mappedBy = "cartao")
 	private Proprietarios proprietario;
@@ -61,14 +64,14 @@ public class Cartao implements Serializable{
 	
 
 
-	public StatusCartao getStatusCartao() {
-		return statusCartao;
-	}
-
-
-	public void setStatusCartao(StatusCartao statusCartao) {
-		this.statusCartao = statusCartao;
-	}
+//	public StatusCartao getStatusCartao() {
+//		return statusCartao;
+//	}
+//
+//
+//	public void setStatusCartao(StatusCartao statusCartao) {
+//		this.statusCartao = statusCartao;
+//	}
 
 
 	public Integer getId() {
@@ -98,6 +101,15 @@ public class Cartao implements Serializable{
 
 	public void setValidade(Date validade) {
 		this.validade = validade;
+	}
+	
+	public Boolean getStatusCartao() {
+		return statusCartao;
+	}
+
+
+	public void setStatusCartao(Boolean statusCartao) {
+		this.statusCartao = statusCartao;
 	}
 	
 	
@@ -137,6 +149,8 @@ public class Cartao implements Serializable{
 			return false;
 		return true;
 	}
+
+
 	
 	
 }

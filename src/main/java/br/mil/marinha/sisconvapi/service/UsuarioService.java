@@ -55,7 +55,16 @@ public class UsuarioService implements UserDetailsService {
 	public List<Usuarios> findAllUsuarioComum() {
 		return usuarioRepository.findAllUsuarioComum("Usuario");
 	}
-
+	
+	public Usuarios findByNomeUsuario(String nome_usuario) {
+		Usuarios usuario = usuarioRepository.findByNomeUsuario(nome_usuario);
+		if (usuario == null) {
+			throw new ObjectNotFoundException("Usuario não encontrado!");
+		}
+		return usuario;
+	}
+	
+	
 	// administrador
 	public Usuarios findById(Integer id) {
 		Optional<Usuarios> usuario = usuarioRepository.findById(id);

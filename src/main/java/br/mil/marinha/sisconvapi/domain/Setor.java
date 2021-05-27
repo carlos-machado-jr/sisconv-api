@@ -10,9 +10,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import org.hibernate.envers.AuditTable;
+import org.hibernate.envers.Audited;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
+@Audited
+@AuditTable("setor_Audit")
 public class Setor implements Serializable{
 
 	/**

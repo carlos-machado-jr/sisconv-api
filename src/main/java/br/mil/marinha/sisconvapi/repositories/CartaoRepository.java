@@ -14,6 +14,6 @@ public interface CartaoRepository extends JpaRepository<Cartao, Integer>{
 	@Query("SELECT obj FROM Cartao obj WHERE obj.numero = :numero")
 	Cartao findByNumeroCartao(@Param("numero") String numero);
 	
-	@Query("SELECT obj FROM Cartao obj where obj.statusCartao.desc_status_cartao = :status")
-	List<Cartao> findByAllStatus(@Param("status") String status);
+	@Query("SELECT obj FROM Cartao obj where obj.statusCartao = :status")
+	List<Cartao> findByAllStatus(@Param("status") Boolean status);
 }
